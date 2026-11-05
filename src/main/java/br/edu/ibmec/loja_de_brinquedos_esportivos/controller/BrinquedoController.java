@@ -23,8 +23,8 @@ public class BrinquedoController {
         return service.listar();
     }
 
-    @GetMapping
-    public Brinquedo buscar(@PathVariable long id) {
+    @GetMapping("/{id}")
+    public Brinquedo buscar(@PathVariable Long id) {
         return service.buscar(id);
     }
 

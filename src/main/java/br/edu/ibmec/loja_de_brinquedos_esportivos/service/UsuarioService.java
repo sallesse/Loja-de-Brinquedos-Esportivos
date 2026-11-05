@@ -1,5 +1,6 @@
 package br.edu.ibmec.loja_de_brinquedos_esportivos.service;
 
+import br.edu.ibmec.loja_de_brinquedos_esportivos.entity.TiposUsuario;
 import br.edu.ibmec.loja_de_brinquedos_esportivos.entity.Usuario;
 import br.edu.ibmec.loja_de_brinquedos_esportivos.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,8 +39,8 @@ public class UsuarioService {
         //parte de criptografar a senha
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 
-        // cadastro publico cria perfil user
-        usuario.setPerfil("USER");
+
+        usuario.setPerfil(TiposUsuario.USER);
 
         return usuarioRepository.save(usuario);
 
