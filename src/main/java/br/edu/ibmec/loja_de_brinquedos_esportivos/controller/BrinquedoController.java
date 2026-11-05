@@ -3,9 +3,9 @@ package br.edu.ibmec.loja_de_brinquedos_esportivos.controller;
 
 import br.edu.ibmec.loja_de_brinquedos_esportivos.entity.Brinquedo;
 import br.edu.ibmec.loja_de_brinquedos_esportivos.service.BrinquedoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,8 +24,26 @@ public class BrinquedoController {
     }
 
     @GetMapping
+    public Brinquedo buscar(@PathVariable long id) {
+        return service.buscar(id);
+    }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Brinquedo criar(@Valid @RequestBody Brinquedo brinquedo) {
+        return service.criar(brinquedo);
+    }
 
+    @PostMapping("/{id}/atualizar")
+    public Brinquedo atualizar(@PathVariable Long id, @Valid @RequestBody Brinquedo brinquedo) {
+        return service.atualizar(id, brinquedo);
+    }
+
+    @PostMapping("/{id}/excluir")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id) {
+        service.deletar(id);
+    }
 
 
 }
