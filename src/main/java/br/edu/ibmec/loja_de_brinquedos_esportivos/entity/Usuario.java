@@ -31,7 +31,7 @@ public class Usuario {
 
     @NotBlank(message = "O perfil e obrigatorio")
     @Column(nullable = false)
-    private String perfil;
+    private TiposUsuario perfil;
 
 
     public Usuario(){}
@@ -54,10 +54,10 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public String getPerfil() {
+    public TiposUsuario getPerfil() {
         return perfil;
     }
-    public void setPerfil(String perfil) {
+    public void setPerfil(TiposUsuario perfil) {
         this.perfil = perfil;
     }
     public Long getId() {
