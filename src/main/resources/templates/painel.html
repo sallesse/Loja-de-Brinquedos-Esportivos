@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topo">
+    <span class="marca">Painel de brinquedos</span>
+    <form th:action="@{/logout}" method="post">
+        <button class="botao" type="submit">Sair</button>
+    </form>
+</header>
+
+<main class="conteudo">
+    <p><strong>Usuário:</strong> <span th:text="${usuario}"></span></p>
+    <p><strong>Perfil:</strong> <span th:text="${perfil}"></span></p>
+
+    <p class="mensagem" th:if="${erro}" th:text="${erro}"></p>
+    <p class="mensagem" th:if="${sucesso}" th:text="${sucesso}"></p>
+
+    <section class="formulario" th:if="${admin}">
+        <h2>Cadastrar brinquedo</h2>
+
+        <form th:action="@{/painel/brinquedos}" method="post">
+            <label>Nome
+                <input type="text" name="nome" required>
+            </label>
+
+            <label>Tipo
+                <input type="text" name="tipo" required>
+            </label>
+
+            <label>Classificação (idade)
+                <input type="number" name="classificacao" min="0" max="15" required>
+            </label>
+
+            <label>Tamanho
+                <input type="text" name="tamanho" required>
+            </label>
+
+            <label>Preço
+                <input type="number" name="preco" min="0.01" step="0.01" required>
+            </label>
+
+            <button class="botao" type="submit">Cadastrar</button>
+        </form>
+    </section>
+
+    <div class="tabela-area">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Classificação</th>
+                <th>Tamanho</th>
+                <th>Preço</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="brinquedo : ${brinquedos}">
+                <td th:text="${brinquedo.id}"></td>
+                <td th:text="${brinquedo.nome}"></td>
+                <td th:text="${brinquedo.tipo}"></td>
+                <td th:text="${brinquedo.classificacao} + ' anos'"></td>
+                <td th:text="${brinquedo.tamanho}"></td>
+                <td th:text="'R$ ' + ${#numbers.formatDecimal(brinquedo.preco, 1, 2, 'COMMA')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(brinquedos)}">
+                <td colspan="6">Nenhum brinquedo cadastrado.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
