@@ -19,37 +19,48 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/brinquedo/**"))
 
-                .authorizeHttpRequests(auth -> auth.
-                        requestMatchers("/", "/login", "/error").permitAll()
-
-                        .requestMatchers(HttpMethod.GET, "/brinquedo/**").hasAnyRole("USER", "ADMIN")
-
-                        .requestMatchers("/brinquedo/**").hasRole("ADMIN")
-
+                // As regras são avaliadas na ordem: da mais específica para a mais genérica.
+                .authorizeHttpRequests(auth -> auth
+                        // Rotas públicas (somente estas!)
                         .requestMatchers("/", "/login", "/error", "/css/**").permitAll()
 
+                        .requestMatchers("/admin", "/admin/**",
+                                "/painel/admin", "/painel/admin/**",
+                                "/painel/brinquedos", "/painel/brinquedos/**",
+                                "/h2-console/**").hasRole("ADMIN")
+
+                        // Painel: exige login (USER ou ADMIN)
+                        .requestMatchers("/painel", "/painel/**").hasAnyRole("USER", "ADMIN")
+
+                        // API REST: leitura para USER/ADMIN, escrita só ADMIN
+                        .requestMatchers(HttpMethod.GET, "/brinquedo", "/brinquedo/**")
+                        .hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/brinquedo", "/brinquedo/**").hasRole("ADMIN")
+
+                        // Qualquer outra rota: precisa estar logado
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/painel", true)
                         .permitAll())
+
                 .httpBasic(Customizer.withDefaults())
 
-                .logout(logout -> logout.logoutSuccessUrl("/"));
+                // Ao sair, encerra a sessão e apaga o cookie, para o painel
+                // não continuar acessível no mesmo navegador.
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
 
         return http.build();
-
-
-
-
-
-
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

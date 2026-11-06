@@ -32,6 +32,8 @@ public class Brinquedo {
     private String tipo;
 
     @NotBlank(message = "A classificacao e obrigatoria")
+    @Max(value=15, message="Classificacao de ate 15 anos")
+    @Min(value=0, message = "Digite uma idade valida")
     @Column(nullable = false)
     private String classificacao;
 
