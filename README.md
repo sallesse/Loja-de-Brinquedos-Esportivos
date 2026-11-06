@@ -122,33 +122,36 @@ Todos os testes usam `http://localhost:8080`.
 | Create | `POST /brinquedo` | 201 Created |
 | Read | `GET /brinquedo/1` | 200 OK |
 | Update | `PUT /brinquedo/1` | 200 OK com o perfil ADMIN; 403 com o perfil USER |
-| Delete | `DELETE /brinquedo/1` 
+| Delete | `DELETE /brinquedo/1` | 201 
 
 ### Create (POST) – 201 Created
 
 Envio do JSON com os dados de um novo brinquedo. A API gravou no banco e devolveu o registro com o `id` gerado (`1`).
 
-![POST criando brinquedo](imagens/02-post-criar-201.jpeg)
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 04 35" src="https://github.com/user-attachments/assets/a578ef70-6ef1-4e35-a0fa-eaec9b2d6a93" />
+
 
 ### Update (PUT) com USER – 403 Forbidden
 
 Tentativa de alterar o brinquedo 1 autenticado como `user@loja.com`. O Spring Security bloqueia a operação, pois o perfil USER não tem permissão de escrita.
 
-![PUT com perfil USER bloqueado](imagens/04-put-user-403.jpeg)
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 10 32" src="https://github.com/user-attachments/assets/c8513e61-d6e0-408a-9e1e-184f58b3fb52" />
 
 ### Update (PUT) com ADMIN – 200 OK
 
 A mesma requisição autenticada como `admin@loja.com` é aceita. O campo `classificacao` mudou de `4` para `6`, confirmando a atualização no banco.
 
-![PUT com perfil ADMIN](imagens/05-put-admin-200.jpeg)
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 10 56" src="https://github.com/user-attachments/assets/209c8e6b-1f8f-4cca-9484-114e8228c32b" />
+
 
 ### Read (GET) com USER – 200 OK
 
 O perfil USER consegue consultar o brinquedo pelo id e vê o dado já atualizado (`classificacao` = 6), provando que a alteração foi persistida.
 
-![GET com perfil USER](imagens/06-get-user-200.jpeg)
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 12 11" src="https://github.com/user-attachments/assets/bd0f9eb2-3b9b-4e14-9e49-3cd1392e78ba" />
 
-### Delete – 201 created
+
+### Delete – 201 
 
 
 <img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 41 24" src="https://github.com/user-attachments/assets/e2b4bc2b-c5ce-404d-8ed4-5ce1854ce99c" />
@@ -163,19 +166,24 @@ O perfil USER consegue consultar o brinquedo pelo id e vê o dado já atualizado
 
 ### Tela de login
 
-![Tela de login](imagens/07-tela-login.jpeg)
+
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 12 33" src="https://github.com/user-attachments/assets/d0286a3c-c62c-4275-904c-0d585b027017" />
+
 
 ### Painel como ADMIN
 
 O ADMIN vê os dados do usuário logado, o formulário **Cadastrar brinquedo** e a tabela com os brinquedos. A tabela mostra o brinquedo criado e atualizado pelo Postman.
 
-![Painel do ADMIN](imagens/03-painel-admin.jpeg)
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 05 12" src="https://github.com/user-attachments/assets/a603a302-f780-43ef-b2e3-7a332f8da498" />
+
 
 ### Painel como USER
 
 O USER vê apenas a tabela de brinquedos. O formulário de cadastro não aparece para este perfil.
 
-![Painel do USER](imagens/08-painel-user.jpeg)
+
+<img width="1600" height="1040" alt="WhatsApp Image 2026-11-06 at 11 12 55" src="https://github.com/user-attachments/assets/ea2de5cd-33ef-4ca7-97d5-dcae79069e74" />
+
 
 ## Estrutura do projeto
 
