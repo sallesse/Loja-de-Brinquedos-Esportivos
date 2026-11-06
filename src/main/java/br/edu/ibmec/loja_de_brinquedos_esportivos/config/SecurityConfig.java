@@ -17,14 +17,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/brinquedos/**"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/brinquedo/**"))
 
                 .authorizeHttpRequests(auth -> auth.
                         requestMatchers("/", "/login", "/error").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/brinquedo/**").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/brinquedos/**").hasRole("ADMIN")
+                        .requestMatchers("/brinquedo/**").hasRole("ADMIN")
+
+                        .requestMatchers("/", "/login", "/error", "/css/**").permitAll()
 
                         .anyRequest().authenticated())
 
@@ -35,6 +37,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
 
                 .logout(logout -> logout.logoutSuccessUrl("/"));
+
         return http.build();
 
 

@@ -34,12 +34,13 @@ public class BrinquedoController {
         return service.criar(brinquedo);
     }
 
-    @PostMapping("/{id}/atualizar")
+    @PutMapping("/{id}")
     public Brinquedo atualizar(@PathVariable Long id, @Valid @RequestBody Brinquedo brinquedo) {
         return service.atualizar(id, brinquedo);
     }
 
-    @PostMapping("/{id}/excluir")
+
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long id) {
         service.deletar(id);
